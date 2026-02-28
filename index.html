@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Un Scaun – O Binecuvântare | B.P.M. Mândruloc</title>
+  <meta name="description" content="Campanie de sponsorizare scaune noi – Biserica Penticostală Mândruloc. Fiecare scaun costă 300 RON."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            green: {
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+              50:  '#f0fdf4',
+              100: '#dcfce7',
+            },
+            amber: { 600: '#d97706', 50: '#fffbeb', 100: '#fef3c7' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Toast notification */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(6rem);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+    /* Animatie subtila pe carduri */
+    .card-hover {
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .card-hover:active { transform: scale(0.99); }
+
+    /* Lightbox */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    #lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    #lightbox img {
+      max-width: 100%;
+      max-height: 90dvh;
+      border-radius: 1rem;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+      transform: scale(0.92);
+      transition: transform 0.25s ease;
+      object-fit: contain;
+      background: white;
+    }
+    #lightbox.open img {
+      transform: scale(1);
+    }
+    .img-zoomable {
+      cursor: zoom-in;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 min-h-screen font-sans antialiased" style="background-color:#f9fafb;">
+
+  <!-- Lightbox overlay -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <button onclick="closeLightbox()" aria-label="Închide"
+            style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,0.15);border:none;color:white;width:2.5rem;height:2.5rem;border-radius:50%;font-size:1.25rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+      ✕
+    </button>
+    <img id="lightbox-img" src="" alt=""/>
+  </div>
+
+  <!-- Toast feedback copiere -->
+  <div id="toast">
+    <div class="flex items-center gap-2 bg-green-700 text-white px-5 py-3 rounded-full shadow-lg text-sm font-semibold">
+      <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+      </svg>
+      <span id="toast-msg">Copiat în clipboard!</span>
+    </div>
+  </div>
+
+  <div class="max-w-2xl mx-auto px-4 py-6 pb-12">
+
+    <!-- ── HERO HEADER ─────────────────────────────────────── -->
+    <div class="rounded-3xl overflow-hidden shadow-xl mb-6"
+         style="background: linear-gradient(160deg, #15803d 0%, #166534 60%, #14532d 100%);">
+      <div class="px-6 pt-10 pb-8 text-center text-white">
+        <div class="mb-4 flex justify-center">
+          <img src="logo.png"
+               alt="Logo Biserica Penticostală Mândruloc"
+               class="w-28 h-28 rounded-full border-4 border-white shadow-lg object-cover bg-white"/>
+        </div>
+        <p class="text-green-100 text-sm font-medium uppercase tracking-widest mb-1">Biserica Penticostală Mândruloc</p>
+        <h1 class="text-3xl font-extrabold leading-tight mb-2">
+          Un Scaun –<br>O Binecuvântare
+        </h1>
+        <div class="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-semibold mt-1">
+          <span class="w-2 h-2 rounded-full bg-amber-300 animate-pulse"></span>
+          Campanie activă
+        </div>
+      </div>
+
+      <!-- Banner preț -->
+      <div class="bg-amber-600 text-white text-center py-3 px-4">
+        <span class="text-sm font-medium">Fiecare scaun nou costă </span>
+        <span class="text-xl font-extrabold">300 RON</span>
+        <span class="text-sm font-medium"> — sponsorizează câte îți permite inima!</span>
+      </div>
+    </div>
+
+    <!-- ── MESAJ CAMPANIE ──────────────────────────────────── -->
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-6 card-hover">
+      <div class="flex items-center gap-2 mb-4">
+        <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+          <svg class="w-4 h-4 text-green-700" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <h2 class="text-base font-bold text-gray-800">Mesaj de la pastori</h2>
+      </div>
+
+      <p class="text-gray-700 text-base leading-relaxed font-medium mb-4">
+        Dragi frați și surori în Hristos!
+      </p>
+      <p class="text-gray-600 text-sm leading-relaxed mb-4">
+        Am lansat proiectul simplu și frumos: <strong class="text-green-700">„Un Scaun – O Binecuvântare"</strong>!
+        Dorim să achiziționăm scaune noi, confortabile, pentru toți cei care vin să se închine.
+      </p>
+
+      <div class="bg-green-50 border border-green-100 rounded-2xl p-4 space-y-3 text-sm">
+        <div>
+          <p class="font-semibold text-green-800 mb-1">✦ Cum funcționează?</p>
+          <p class="text-gray-600">Fiecare scaun nou costă <strong class="text-amber-600">300 RON</strong>. Poți sponsoriza un scaun, două, cinci sau câte îți permite inima și posibilitățile tale!</p>
+        </div>
+        <div>
+          <p class="font-semibold text-green-800 mb-1">✦ De ce contează?</p>
+          <p class="text-gray-600">Fiecare donație este o piatră pusă la casa Domnului. Fiecare scaun – un loc pregătit pentru un suflet care va veni la Dumnezeu.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── IMAGINI PROIECT ─────────────────────────────────── -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+
+      <!-- Proiect scaune -->
+      <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden card-hover">
+        <div class="aspect-video overflow-hidden">
+          <img src="proiect-scaune.jpeg"
+               alt="Proiectul de scaune noi în sala de adunare"
+               class="w-full h-full object-cover img-zoomable"
+               onclick="openLightbox(this)"/>
+        </div>
+        <div class="p-4">
+          <p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-0.5">Proiectul nostru</p>
+          <p class="text-sm text-gray-600">Sala de adunare cu scaunele ce urmează să fie înlocuite</p>
+        </div>
+      </div>
+
+      <!-- Scaunul individual -->
+      <div class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden card-hover">
+        <div class="aspect-video overflow-hidden bg-white flex items-center justify-center">
+          <img src="scaun.png"
+               alt="Scaunul nou pe care îl poți sponsoriza – 300 RON"
+               class="w-full h-full object-contain p-2 img-zoomable"
+               onclick="openLightbox(this)"/>
+        </div>
+        <div class="p-4">
+          <p class="text-xs font-semibold text-green-700 uppercase tracking-wide mb-0.5">Scaunul pe care îl sponsorizezi</p>
+          <div class="flex items-center justify-between">
+            <p class="text-sm text-gray-600">Confortabil, rezistent, modern</p>
+            <span class="bg-amber-100 text-amber-700 text-xs font-bold px-2.5 py-1 rounded-full">300 RON</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── CUM DONEZI – PAȘI ───────────────────────────────── -->
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="text-base font-bold text-gray-800 mb-4">Cum donezi?</h2>
+
+      <div class="space-y-4">
+
+        <div class="flex gap-4 items-start">
+          <div class="w-8 h-8 rounded-full bg-green-700 text-white flex items-center justify-center text-sm font-bold shrink-0 mt-0.5">1</div>
+          <div>
+            <p class="font-semibold text-gray-800 text-sm">Decide suma</p>
+            <p class="text-gray-500 text-sm">300 RON × numărul de scaune dorit (1, 2, 5 sau mai multe)</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-start">
+          <div class="w-8 h-8 rounded-full bg-green-700 text-white flex items-center justify-center text-sm font-bold shrink-0 mt-0.5">2</div>
+          <div>
+            <p class="font-semibold text-gray-800 text-sm">Transferă în contul de mai jos</p>
+            <p class="text-gray-500 text-sm">Copiază IBAN-ul și adaugă mențiunea <strong class="text-green-700">UN SCAUN</strong> obligatoriu!</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 items-start">
+          <div class="w-8 h-8 rounded-full bg-amber-600 text-white flex items-center justify-center text-sm font-bold shrink-0 mt-0.5">✓</div>
+          <div>
+            <p class="font-semibold text-gray-800 text-sm">Fii binecuvântat!</p>
+            <p class="text-gray-500 text-sm">Donează azi și fii parte din această binecuvântare!</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── DETALII BANCARE ────────────────────────────────── -->
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-6 mb-6">
+      <h2 class="text-base font-bold text-gray-800 mb-1">Detalii transfer bancar</h2>
+      <p class="text-sm text-gray-500 mb-5">Atinge „Copiază" pentru a copia în aplicația ta bancară</p>
+
+      <div class="space-y-3">
+
+        <!-- Beneficiar -->
+        <div class="bg-gray-50 rounded-2xl p-4">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Beneficiar</p>
+          <div class="flex items-center justify-between gap-3">
+            <span id="val-beneficiar" class="font-medium text-gray-800 text-sm flex-1">Biserica Penticostală Mândruloc</span>
+            <button onclick="copyText('val-beneficiar', 'Beneficiar copiat!')"
+                    class="copy-btn shrink-0 flex items-center gap-1.5 bg-green-700 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-all active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+              Copiază
+            </button>
+          </div>
+        </div>
+
+        <!-- IBAN -->
+        <div class="bg-gray-50 rounded-2xl p-4">
+          <div class="flex items-center justify-between mb-2">
+            <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Cont IBAN</p>
+            <span class="text-xs font-bold bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full">Banca Transilvania</span>
+          </div>
+          <div class="flex items-center justify-between gap-3">
+            <span id="val-iban" class="font-mono font-semibold text-gray-800 text-sm flex-1 break-all">RO06BTRLRONCRT0637475401</span>
+            <button onclick="copyText('val-iban', 'IBAN copiat!')"
+                    class="copy-btn shrink-0 flex items-center gap-1.5 bg-green-700 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-all active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+              Copiază
+            </button>
+          </div>
+        </div>
+
+        <!-- SWIFT -->
+        <div class="bg-gray-50 rounded-2xl p-4">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Cod SWIFT / BIC</p>
+          <div class="flex items-center justify-between gap-3">
+            <span id="val-swift" class="font-mono font-semibold text-gray-800 text-sm flex-1">BTRLRO22</span>
+            <button onclick="copyText('val-swift', 'SWIFT copiat!')"
+                    class="copy-btn shrink-0 flex items-center gap-1.5 bg-green-700 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-all active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+              Copiază
+            </button>
+          </div>
+        </div>
+
+        <!-- Mențiune OBLIGATORIE -->
+        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-4">
+          <div class="flex items-center gap-2 mb-2">
+            <svg class="w-4 h-4 text-amber-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+            <p class="text-xs font-bold text-amber-700 uppercase tracking-wide">Mențiune OBLIGATORIE la transfer</p>
+          </div>
+          <div class="flex items-center justify-between gap-3">
+            <span id="val-mentiune" class="font-mono font-bold text-amber-800 text-base flex-1">UN SCAUN</span>
+            <button onclick="copyText('val-mentiune', 'Mențiune copiată!')"
+                    class="copy-btn shrink-0 flex items-center gap-1.5 bg-amber-600 text-white text-xs font-semibold px-3 py-2 rounded-xl transition-all active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+              </svg>
+              Copiază
+            </button>
+          </div>
+          <p class="text-xs text-amber-600 mt-2">Fără această mențiune nu putem știi că banii sunt pentru scaune!</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── FOOTER ─────────────────────────────────────────── -->
+    <div class="text-center text-gray-500 text-sm space-y-1 px-4">
+      <p class="text-2xl mb-2">🙏</p>
+      <p class="font-semibold text-gray-700">Mulțumim pentru generozitate și binecuvântare!</p>
+      <p>Fiecare <strong>300 RON</strong> = un scaun nou în casa Domnului</p>
+      <p class="text-xs mt-3 text-gray-400">B.P.M. Mândruloc · Proiect „Un Scaun – O Binecuvântare"</p>
+    </div>
+
+  </div>
+
+  <script>
+    let toastTimer = null;
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msg   = document.getElementById('toast-msg');
+      msg.textContent = message;
+      toast.classList.add('show');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+    }
+
+    function copyText(elementId, toastMessage) {
+      const el   = document.getElementById(elementId);
+      const text = el.textContent.trim();
+
+      // Modern Clipboard API (Chrome, Firefox, Safari 13.1+, mobile)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast(toastMessage || 'Copiat!'))
+          .catch(() => fallbackCopy(text, toastMessage));
+      } else {
+        fallbackCopy(text, toastMessage);
+      }
+    }
+
+    function openLightbox(imgEl) {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      lbImg.src = imgEl.src;
+      lbImg.alt = imgEl.alt;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Închide cu tasta Escape
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    function fallbackCopy(text, toastMessage) {
+      // Fallback pentru browsere mai vechi sau contexte fără HTTPS
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.cssText = 'position:fixed;top:-9999px;left:-9999px;opacity:0';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast(toastMessage || 'Copiat!');
+      } catch (e) {
+        showToast('Selectează manual textul');
+      }
+    }
+  </script>
+
+</body>
+</html>
