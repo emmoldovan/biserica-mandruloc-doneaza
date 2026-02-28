@@ -84,6 +84,35 @@
     .img-zoomable {
       cursor: zoom-in;
     }
+
+    /* Galerie scroll orizontal */
+    .gallery-scroll {
+      display: flex;
+      gap: 0.625rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.5rem;
+      scrollbar-width: none;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    .gallery-item {
+      flex: 0 0 auto;
+      width: 10rem;
+      height: 7.5rem;
+      border-radius: 0.875rem;
+      overflow: hidden;
+      scroll-snap-align: start;
+      background: #f3f4f6;
+    }
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.2s ease;
+      display: block;
+    }
+    .gallery-item:active img { transform: scale(0.96); }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen font-sans antialiased" style="background-color:#f9fafb;">
@@ -116,6 +145,7 @@
         <div class="mb-4 flex justify-center">
           <img src="logo.png"
                alt="Logo Biserica Penticostală Mândruloc"
+               loading="eager" fetchpriority="high" decoding="async"
                class="w-28 h-28 rounded-full border-4 border-white shadow-lg object-cover bg-white"/>
         </div>
         <p class="text-green-100 text-sm font-medium uppercase tracking-widest mb-1">Biserica Penticostală Mândruloc</p>
@@ -201,6 +231,48 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- ── GALERIE CONCEPT (RENDERS) ─────────────────────────── -->
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-5 mb-4">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-2 h-2 rounded-full bg-green-700"></div>
+        <h2 class="text-sm font-bold text-gray-800 uppercase tracking-wide">Proiect – concept arhitectural</h2>
+      </div>
+      <p class="text-xs text-gray-500 mb-3">Renders 3D ale noii clădiri · Atinge o imagine s-o mărești</p>
+      <div class="gallery-scroll">
+        <div class="gallery-item"><img src="proiect-fata.jpeg"                   loading="lazy" decoding="async" alt="Fațada noii clădiri"            class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-de-sus.jpeg"                 loading="lazy" decoding="async" alt="Vedere de sus"                  class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-intrare.jpeg"                loading="lazy" decoding="async" alt="Intrarea principală"             class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-intrare1.jpeg"               loading="lazy" decoding="async" alt="Intrare – unghi 1"               class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-intrare2.jpeg"               loading="lazy" decoding="async" alt="Intrare – unghi 2"               class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-intrare-3.jpeg"              loading="lazy" decoding="async" alt="Intrare – unghi 3"               class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-interior-sala.jpeg"          loading="lazy" decoding="async" alt="Interior – sala principală"       class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-interior-sala1.jpeg"         loading="lazy" decoding="async" alt="Interior – sala (unghi 1)"        class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-interior-sala2.jpeg"         loading="lazy" decoding="async" alt="Interior – sala (unghi 2)"        class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-interior-scena.jpeg"         loading="lazy" decoding="async" alt="Interior – scena"                 class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-interior-scena-larg.jpeg"    loading="lazy" decoding="async" alt="Interior – scenă (vedere largă)"  class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-interior-scena-lateral.jpeg" loading="lazy" decoding="async" alt="Interior – scenă (lateral)"       class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-interior-media.jpeg"         loading="lazy" decoding="async" alt="Interior – zona media"            class="img-zoomable" onclick="openLightbox(this)"/></div>
+      </div>
+    </div>
+
+    <!-- ── GALERIE PROGRES CONSTRUCȚIE ───────────────────────── -->
+    <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-5 mb-6">
+      <div class="flex items-center gap-2 mb-3">
+        <div class="w-2 h-2 rounded-full bg-amber-600"></div>
+        <h2 class="text-sm font-bold text-gray-800 uppercase tracking-wide">Progres construcție</h2>
+      </div>
+      <p class="text-xs text-gray-500 mb-3">Poze reale din șantier · Atinge o imagine s-o mărești</p>
+      <div class="gallery-scroll">
+        <div class="gallery-item"><img src="poiect-progres-funcatie.jpeg"             loading="lazy" decoding="async" alt="Progres – fundație"          class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-progres-fundatie-turnata.jpeg"    loading="lazy" decoding="async" alt="Fundație turnată"             class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-progres-siduri.jpeg"              loading="lazy" decoding="async" alt="Progres – ziduri"             class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-progres-din-curte.jpeg"           loading="lazy" decoding="async" alt="Vedere din curte"             class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="progres-exterior.jpeg"                    loading="lazy" decoding="async" alt="Exterior – stadiu actual"     class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="proiect-progres-interior.jpeg"            loading="lazy" decoding="async" alt="Interior – progres (1)"       class="img-zoomable" onclick="openLightbox(this)"/></div>
+        <div class="gallery-item"><img src="progres-interior.jpeg"                    loading="lazy" decoding="async" alt="Interior – progres (2)"       class="img-zoomable" onclick="openLightbox(this)"/></div>
+      </div>
     </div>
 
     <!-- ── CUM DONEZI – PAȘI ───────────────────────────────── -->
